@@ -39,6 +39,13 @@ resource "aws_security_group" "Kubemaster1" {
     protocol         = "tcp"
     security_groups = ["sg-09b3e85b6d5a3015a"]
   }
+  ingress {
+    description      = "ssh"
+    from_port        = 22
+    to_port          = 22
+    protocol         = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
   egress {
     from_port       = 0
     to_port         = 0
@@ -65,11 +72,11 @@ resource "aws_security_group" "Kubeworker1" {
   }
 
   ingress {
-    description      = "etcd server client API"
+    description      = "nodeport"
     from_port        = 30000
     to_port          = 32767
     protocol         = "tcp"
-    security_groups = ["sg-09b3e85b6d5a3015a"]
+    cidr_blocks = ["0.0.0.0/0"]
   }
   ingress {
     description      = "Kubelet API"
@@ -77,6 +84,13 @@ resource "aws_security_group" "Kubeworker1" {
     to_port          = 10250
     protocol         = "tcp"
     security_groups = ["sg-0ecaa765f7c06e0c3"]
+  }
+  ingress {
+    description      = "ssh"
+    from_port        = 22
+    to_port          = 22
+    protocol         = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
   }
   egress {
     from_port       = 0
